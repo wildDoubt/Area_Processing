@@ -9,8 +9,6 @@ def edge_convolution(_image, mask_x):
     image_x = cv2.filter2D(_image, -1, mask_x)
     image_y = cv2.filter2D(_image, -1, mask_y)
 
-    # _result = np.sqrt(np.square(image_x) + np.square(image_y))
-    # _result *= 255.0 / _result.max()
     _result = np.sqrt(image_x ** 2 + image_y ** 2)
     _result *= 255.0 / np.max(_result)
     return _result
@@ -61,24 +59,23 @@ if __name__ == "__main__":
     LoG_mask = np.array([[0, 1, 0], [1, -4, 1], [0, 1, 0]])
     for file_path in file_paths:
         images.append(cv2.imread(file_path, 0))
-    # for j in range(len(images)):
-    #     result1 = cv2.GaussianBlur(images[j], (5, 5), 1)
-    #     result1 = edge_convolution(result1, sobel_mask).astype(np.float)
-    #     result1[result1 > 180] = 255
-    #     result1[result1 < 180] = 0
-    #
-    #     result2 = cv2.GaussianBlur(images[j], (5, 5), 1)
-    #     result2 = edge_convolution(result2, prewitt_mask).astype(np.float)
-    #     result2[result2 > 200] = 255
-    #     result2[result2 < 200] = 0
-    #     # cv2.imwrite('test.jpg', result)
-    #
-    #
-    #     cv2.imwrite('../result/Edge_detection/' + getFileName(file_paths[j]) + '_sobel' + '.jpg',
-    #                 result1)
-    #     cv2.imwrite('../result/Edge_detection/' + getFileName(file_paths[j]) + '_prewitt' + '.jpg',
-    #                 result2)
-    # result = edge_convolution(images[3], create_log(3)).astype(np.float)
+    for j in range(len(images)):
+        result1 = cv2.GaussianBlur(images[j], (5, 5), 1)
+        result1 = edge_convolution(result1, sobel_mask).astype(np.float)
+        result1[result1 > 180] = 255
+        result1[result1 < 180] = 0
+
+        result2 = cv2.GaussianBlur(images[j], (5, 5), 1)
+        result2 = edge_convolution(result2, prewitt_mask).astype(np.float)
+        result2[result2 > 200] = 255
+        result2[result2 < 200] = 0
+
+
+        cv2.imwrite('../result/Edge_detection/' + getFileName(file_paths[j]) + '_sobel' + '.jpg',
+                    result1)
+        cv2.imwrite('../result/Edge_detection/' + getFileName(file_paths[j]) + '_prewitt' + '.jpg',
+                    result2)
+
 
     for i in range(3, 10, 2):
         for j in range(len(images)):

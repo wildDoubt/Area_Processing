@@ -2,19 +2,6 @@ import cv2
 import numpy as np
 from matplotlib import pyplot as plt
 
-
-# images = [cv2.imread('../images/Grayscale_noisy/fig1_original.jpg', 0),
-#           cv2.imread('../images/Grayscale_noisy/fig1_gaussian_noise.jpg', 0),
-#           cv2.imread('../images/Grayscale_noisy/fig1_saltnpepper_noise.jpg', 0),
-#           cv2.imread('../images/Grayscale_noisy/fig2_original.jpg', 0),
-#           cv2.imread('../images/Grayscale_noisy/fig2_saltnpepper_noise.jpg', 0),
-#           cv2.imread('../images/Grayscale_noisy/fig2_gaussian_noise.jpg', 0)]
-#
-# cv2.imshow('test', images[0])
-# cv2.waitKey(5000)
-# cv2.destroyAllWindows()
-
-
 # 가우시안 필터
 
 # 미디언 필터
@@ -47,7 +34,6 @@ class Filter:
         new_image = np.zeros((image.shape[0] - (mask_size // 2) * 2, image.shape[1] - (mask_size // 2) * 2))
         for i in range(start_row_index, end_row_index):
             for j in range(start_column_index, end_column_index):
-                # image[i][j] = self.getMedian(image, i, j, mask_size)
                 new_image[i - start_row_index][j - start_column_index] = self.getMedian(image, i, j, mask_size)
         return new_image
 
@@ -81,16 +67,15 @@ if __name__ == "__main__":
     for file_path in file_paths:
         images.append(cv2.imread(file_path, cv2.IMREAD_COLOR))
     f = Filter()
-    # print(images[0].shape)
-    # cv2.imshow('ss', f.mFilterColor(images[1], 3) / 255)
-    # cv2.waitKey(50000)
-    # cv2.destroyAllWindows()
-    # print()
-    cv2.imwrite('../result/Color_noisy/Lena_noise_median3_no_opencv.jpg', f.mFilterColor(images[1], 3))
 
-    # for i in range(3, 4, 2):
-    #     for j in range(len(images)):
-    #         print(f"{'../result/Color_noisy/' + getFileName(file_paths[j]) + '_median' + str(i) + '.jpg'} 진행 중")
-    #         cv2.imwrite('../result/Color_noisy/' + getFileName(file_paths[j]) + '_median' + str(i) + '.jpg',
-    #                     cv2.medianBlur(images[j], i))
-    #         print(f"{'../result/Color_noisy/' + getFileName(file_paths[j]) + '_median' + str(i) + '.jpg'} 저장 완료")
+
+    for i in range(3, 8, 2):
+        for j in range(len(images)):
+            print(f"{'../result/Color_noisy/' + getFileName(file_paths[j]) + '_median' + str(i) + '.jpg'} 진행 중")
+            cv2.imwrite('../result/Color_noisy/' + getFileName(file_paths[j]) + '_median' + str(i) + '.jpg',
+                        cv2.medianBlur(images[j], i))
+            print(f"{'../result/Color_noisy/' + getFileName(file_paths[j]) + '_median' + str(i) + '.jpg'} 저장 완료")
+            print(f"{'../result/Color_noisy/' + getFileName(file_paths[j]) + '_gaussian' + str(i) + '.jpg'} 진행 중")
+            cv2.imwrite('../result/Color_noisy/' + getFileName(file_paths[j]) + '_gaussian' + str(i) + '.jpg',
+                        cv2.GaussianBlur(images[j], (i, i), 0))
+            print(f"{'../result/Color_noisy/' + getFileName(file_paths[j]) + '_gaussian' + str(i) + '.jpg'} 저장 완료")

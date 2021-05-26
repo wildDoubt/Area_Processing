@@ -3,18 +3,6 @@ import numpy as np
 from matplotlib import pyplot as plt
 
 
-# images = [cv2.imread('../images/Grayscale_noisy/fig1_original.jpg', 0),
-#           cv2.imread('../images/Grayscale_noisy/fig1_gaussian_noise.jpg', 0),
-#           cv2.imread('../images/Grayscale_noisy/fig1_saltnpepper_noise.jpg', 0),
-#           cv2.imread('../images/Grayscale_noisy/fig2_original.jpg', 0),
-#           cv2.imread('../images/Grayscale_noisy/fig2_saltnpepper_noise.jpg', 0),
-#           cv2.imread('../images/Grayscale_noisy/fig2_gaussian_noise.jpg', 0)]
-#
-# cv2.imshow('test', images[0])
-# cv2.waitKey(5000)
-# cv2.destroyAllWindows()
-
-
 # 가우시안 필터
 
 # 미디언 필터
@@ -117,15 +105,12 @@ if __name__ == "__main__":
     sharpening_paths = ['../images/High_boost_filter_image/fig3_original.jpg',
                         '../images/High_boost_filter_image/fig4_original.jpg']
     images = []
-    s_images=[]
+    s_images = []
     for file_path in file_paths:
         images.append(cv2.imread(file_path, 0))
     for sharpening_path in sharpening_paths:
         s_images.append(cv2.imread(sharpening_path, 0))
     f = Filter()
-    # cv2.imshow('ss', f.aFilter(images[2], 3))
-    # cv2.waitKey(50000)
-    # cv2.destroyAllWindows()
 
     for i in range(3, 8, 2):
         for j in range(len(images)):
@@ -143,13 +128,16 @@ if __name__ == "__main__":
             cv2.imwrite('../result/Grayscale_noisy/' + getFileName(file_paths[j]) + '_average' + str(i) + '.jpg',
                         f.aFilter(images[j], i))
             print(f"{'../result/Grayscale_noisy/' + getFileName(file_paths[j]) + '_average' + str(i) + '.jpg'} 저장 완료")
-    # options = [(1.2, 1), (1.2, 2), (1.5, 1), (1.5, 2)]
-    # for p in options:
-    #     A = p[0]
-    #     option = p[1]
-    #     for i in range(len(s_images)):
-    #         print(f"{'../result/High_boost_filter_image/' + getFileName(sharpening_paths[i]) + '_A'+str(A) + '_mask' + str(option) + '.jpg'} 진행 중")
-    #         cv2.imwrite('../result/High_boost_filter_image/' + getFileName(sharpening_paths[i]) + '_A'+str(A) + '_mask' + str(option) + '.jpg',
-    #                     f.highBoost(s_images[i], A, option))
-    #         print(
-    #             f"{'../result/High_boost_filter_image/' + getFileName(sharpening_paths[i]) + '_A' + str(A) + '_mask' + str(option) + '.jpg'} 저장 완료")
+    options = [(1.2, 1), (1.2, 2), (1.5, 1), (1.5, 2)]
+    for p in options:
+        A = p[0]
+        option = p[1]
+        for i in range(len(s_images)):
+            print(
+                f"{'../result/High_boost_filter_image/' + getFileName(sharpening_paths[i]) + '_A' + str(A) + '_mask' + str(option) + '.jpg'} 진행 중")
+            cv2.imwrite(
+                '../result/High_boost_filter_image/' + getFileName(sharpening_paths[i]) + '_A' + str(A) + '_mask' + str(
+                    option) + '.jpg',
+                f.highBoost(s_images[i], A, option))
+            print(
+                f"{'../result/High_boost_filter_image/' + getFileName(sharpening_paths[i]) + '_A' + str(A) + '_mask' + str(option) + '.jpg'} 저장 완료")
